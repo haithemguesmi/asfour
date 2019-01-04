@@ -10,7 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import nantes.asfour.tn.dao.TaskRepository;
+import nantes.asfour.tn.entites.AppRole;
+import nantes.asfour.tn.entites.AppUser;
 import nantes.asfour.tn.entites.Task;
+import nantes.asfour.tn.service.AccountService;
 
 
 
@@ -20,17 +23,31 @@ public class AsfourApplication implements CommandLineRunner{
 	@Autowired
 	TaskRepository taskRepository;
 	
+	@Autowired
+	private AccountService accountService;
+	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(AsfourApplication.class, args);
 	}
 
-	@Bean//l'oesque l'application demarge ,cette methode elle executé , le resultat retourné sa devient un bean spring->injecté par tout --> tout les classe
+	@Bean//l'oesque l'application demarge ,cette methode elle executé ,
+	//le resultat retourné sa devient un bean spring->injecté par tout --> tout les classe
 	public BCryptPasswordEncoder getBCPE() {
 		return new BCryptPasswordEncoder();
 	}
 	
 	@Override
 	public void run(String... args) throws Exception {
+		accountService.saveUser(new AppUser(null,"admin","1234",null));
+		accountService.saveUser(new AppUser(null,"user","1234",null));
+		accountService.saveRole(new AppRole(null,"ADMIN"));
+		accountService.saveRole(new AppRole(null,"USER"));
+		accountService.addRoleToUser("admin", "ADMIN");
+		accountService.addRoleToUser("admin", "USER");
+		accountService.addRoleToUser("user", "USER");
+		
+		
 		Stream.of("T1","T2","T3").forEach(t->{
 		taskRepository.save(new Task(null,t));
 		});
