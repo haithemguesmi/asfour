@@ -18,7 +18,7 @@ public class AccountRestControlleur {
 	
 	@PostMapping("register")
 	public AppUser registre(@RequestBody RegisterForm userForm) {
-		if (!userForm.getPassword().equals(userForm.getRepawword())) throw new RuntimeException("You maust confirm your password");
+		if (!userForm.getPassword().equals(userForm.getRepassword())) throw new RuntimeException("You maust confirm your password");
 		
 		//si le mdp existe deja
 		AppUser user=accountService.findUserByUserName(userForm.getUsername());

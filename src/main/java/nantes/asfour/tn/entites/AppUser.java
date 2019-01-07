@@ -65,12 +65,12 @@ public class AppUser {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-   @JsonIgnore
+   @JsonIgnore//mdp caché
 	public String getPassword() {
 		return password;
 	}
 
-	@JsonSetter
+	@JsonSetter//mdp caché 
 	public void setPassword(String password) {
 		this.password = password;
 	}

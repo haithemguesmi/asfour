@@ -3,6 +3,7 @@ package nantes.asfour.tn.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class AccountServiceImpl  implements AccountService{
 	private RoleRepository roleRepository;
 	
 	@Override
+	@PreAuthorize("ROLE_ADMIN")
 	public AppUser saveUser(AppUser user) {
 	    String hasPw=bCryptPasswordEncoder.encode(user.getPassword());
 		user.setPassword(hasPw);
